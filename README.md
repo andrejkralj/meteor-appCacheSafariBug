@@ -10,19 +10,20 @@ appcache Safari reload bug #1470 & appcache double download issue
 
 The current appcache implemation downloads each resource in public folder twice. This is by design to enable users to change a static resource, but leaving the same name in place.  
 It's implemented by hashing the file and appending the hash to the filename which is linked in the app.manifest file.
+
 [@awwx explains how it works in the current implemenation using image1.jpg as an example:] (https://github.com/meteor/meteor/issues/1470#issuecomment-26092570)
 
 >Both image1.jpg and image1.jpg?a237bf23.. will be downloaded. image1.jpg will be downloaded because it is referenced in an img tag; image1.jpg?a237bf23.. because it is referenced in the cache manifest.
 
-That means, when a user opens a meteor app with the appcache package enabled and there a 4mb of images, fonts,... in the public folder, 8mb are being downloaded instead of 4mb.
+This means, when a user opens a meteor app with the appcache package enabled for the first time and there a 4mb of images, fonts,... in the public folder, 8mb are being downloaded instead of 4mb.
 
-Here is a screenshot of the cache content in Safari 6, osx:
+I think this is a really bad idea, esp. when thinking about users on mobile, experiencing the app for the first time.
 
-(https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/safari_double_download_bug.png)
+To demonstrate how the current appcache downloads resources, I deployed [this repo](https://github.com/akralj/meteor-appCacheSafariBug) to http://appcachetest.meteor.com with meteor 0.6.5.1. Here are the screen shots of the cache content after loading the page with an empty browser cache & appcache:
 
-and one for Chrome 30, osx
+[Safari 6 (osx)](https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/safari_double_download_bug.png)
 
-(https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/safari_double_download_bug.png)
+[Chrome 30 (osx)](https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/chrome_double_download_bug.png)
 
 
 In both cases the font and the image are being downloaded twice. In chrome there are just seperated in the gui. 
@@ -49,11 +50,20 @@ So I suggest getting rid of the hashed versions of the files and just using the 
 I deployed a version of the test app with my modified version of the appcache to:
 (http://appcache2.meteor.com)
 
+I tested my PR with safari 6 (osx), mobileSafari on ios 6.12, Opera 17 (osx), chrome 30 (osx), firefox 24 (osx), ie10 (win7), firefox 24 (win7), opera 16 (win7) 
 
-There is no issue with changed files / same name, not being reloaded anymore in chrome, safari & opera. 
-Firefox & ie10 have different caching rules. so they seem to wait for the 1week expiration which static resources get from meteor at the moment:
-(https://github.com/meteor/meteor/blob/devel/packages/webapp/webapp_server.js#L267)
-I tried changing it to one minute to test with firefox & ie. They are reloading it some times, but I am not sure why they do not do it every time. Anyway I don't think it would be a could idea to change the expiry header to less then one week. 
-Here a quick video showing different browsers loading the new appcache version, after the image is change, but left with the same name:
-(http://youtu.be/-lzbIqQBUo8)
+Concerning the conviniece that a dev can change an image for example, but keep the same name:
+
+This does not change so much with the new implementation. Chrome, Opera & Safari just reload it on a hot code push, put it into the browser cache and immediatelly update change files in the appcache.
+
+IE10 & firefox wait till the one day expiration time, which is [set in for static resources:](https://github.com/meteor/meteor/blob/devel/packages/webapp/webapp_server.js#L267)
+
+I checked this by changing the time one my server install & changing the time in windows. 
+
+[Short video demonstrating what happends after an image is being replaced, but the name stays the same & also showing that the app is still working offline:] (http://youtu.be/-lzbIqQBUo8)
+
+I recommend to explain in in the appcache docs, that the safest approach when working with the appcache is to append a version number to any static resource, which is being changed. 
+This is the recommended way to handle static files in the MANIFEST file, anyway.
+
+
 
