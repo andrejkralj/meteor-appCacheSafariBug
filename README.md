@@ -1,5 +1,6 @@
 ##Test repo for meteor issues #1470, #1488
-Please clone and run with or without the modified [appcache-server.js](https://github.com/akralj/meteor/blob/aed65875f11d5ac198c1cf1becc87a2ba4c55465/packages/appcache/appcache-server.js).
+Please clone and run with or without the modified [appcache-server.js](https://github.com/akralj/meteor/blob/aed65875f11d5ac198c1cf1becc87a2ba4c55465/packages/appcache/appcache-server.js) or clone [my meteor fork.](https://github.com/akralj/meteor)
+
 
 ### #1470 Appcache Safari reload bug 
 Safari on all versions has a problem loading resources which are references with a hash in the filename.
