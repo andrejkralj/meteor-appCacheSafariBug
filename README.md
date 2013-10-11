@@ -1,8 +1,11 @@
-## #1470 Appcache Safari reload bug 
+##Test repo for meteor issues #1470, #1488
+Please clone and run with or without the modified [appcache-server.js](https://github.com/akralj/meteor/blob/aed65875f11d5ac198c1cf1becc87a2ba4c55465/packages/appcache/appcache-server.js).
+
+### #1470 Appcache Safari reload bug 
 Safari on all versions has a problem loading resources which are references with a hash in the filename.
 tested on Safari 5, 6 on os x & Mobile Safari on ios 5, 6, 7
 
-## #1488 Appcache downloads static files twice
+### #1488 Appcache downloads static files twice
 
 The current appcache implementation downloads each resource in public folder twice. This is by design to enable users to change a static resource, but leaving the same name in place.  
 It's implemented by hashing the file and appending the hash to the filename which is linked in the app.manifest file.
