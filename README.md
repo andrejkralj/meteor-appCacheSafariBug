@@ -1,4 +1,4 @@
-appcache Safari reload bug #1470 & appcache double download issue 
+Appcache Safari reload bug #1470 & Appcache double download issue 
 =================
 
 
