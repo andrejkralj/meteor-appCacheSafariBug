@@ -1,3 +1,5 @@
+#1470 Appcache Safari reload bug & #1488 Appcache enabled apps download each static resource in the public folder twice
+
 The current appcache implementation downloads each resource in public folder twice. This is by design to enable users to change a static resource, but leaving the same name in place.  
 It's implemented by hashing the file and appending the hash to the filename which is linked in the app.manifest file.
 
