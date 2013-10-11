@@ -1,10 +1,22 @@
-appCacheSafariBug
+appcache Safari reload bug #1470 & appcache double download issue 
 =================
 
-Meteor bug on safari 5, 6 &amp; Mobile Safari 5, 6
 
-After looking more into how browsers work with browser cache vs. appcache I found that it is indeed, that with the current implementation, each resource is being downloaded twice. So image1.jpg and image1.jpg?dklasf213421342314fds always exists in the cache of the browser.
-here a screenshot for Safari 6, osx:
+## Issue: #1470
+* Safari on all versions has a problem loading resources which are references with a hash in the filename.
+* tested on Safari 5, 6 on os x & Mobile Safari on ios 5, 6, 7
+
+## Issue:
+
+The current appcache implemation downloads each resource in public folder twice. This is by design to enable users to change a static resource, but leaving the same name in place.  
+It's implemented by hashing the file and appending the hash to the filename which is linked in the app.manifest file.
+[@awwx explains how it works in the current implemenation using image1.jpg as an example:] (https://github.com/meteor/meteor/issues/1470#issuecomment-26092570)
+
+>Both image1.jpg and image1.jpg?a237bf23.. will be downloaded. image1.jpg will be downloaded because it is referenced in an img tag; image1.jpg?a237bf23.. because it is referenced in the cache manifest.
+
+That means, when a user opens a meteor app with the appcache package enabled and there a 4mb of images, fonts,... in the public folder, 8mb are being downloaded instead of 4mb.
+
+Here is a screenshot of the cache content in Safari 6, osx:
 
 (https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/safari_double_download_bug.png)
 
@@ -12,8 +24,9 @@ and one for Chrome 30, osx
 
 (https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/safari_double_download_bug.png)
 
-In both cases the font and the image are in the cache twice. In chrome there are just seperated in the gui. 
-So I suggest getting rid of the hashed versions of the files and just using the simple filenames. Apart from addition download it is a much cleaner manifest file, like this one:
+
+In both cases the font and the image are being downloaded twice. In chrome there are just seperated in the gui. 
+So I suggest getting rid of the hashed versions of the files and just using the simple filenames. A example app.manifest looks like this:
 
     CACHE MANIFEST
 
@@ -33,8 +46,9 @@ So I suggest getting rid of the hashed versions of the files and just using the 
     /sockjs/
     *
 
-I deployed a version with my changed version to:
+I deployed a version of the test app with my modified version of the appcache to:
 (http://appcache2.meteor.com)
+
 
 There is no issue with changed files / same name, not being reloaded anymore in chrome, safari & opera. 
 Firefox & ie10 have different caching rules. so they seem to wait for the 1week expiration which static resources get from meteor at the moment:
