@@ -26,6 +26,10 @@ Tools to view the content of the different caches:
 * Firefox: Appcache Entries: about:cache?device=offline |  Browser Cache: about:cache?device=disk
 * Safari: http://www.beecubu.com/en/desktop-apps/#SafariCacheExplorer (Testversion is enough)
 
+For some strange reason the networking tools of the browsers don't show what is really going over the wire. That's why I put the charles Proxy in between:
+
+[Charles Proxy Output Screenshot](https://github.com/akralj/meteor-appCacheSafariBug/blob/master/screenshots/charles_firefox_network_monitoring.png)
+
 In both cases the font and the image are being downloaded twice. In chrome there are just separated in the gui. 
 So I suggest getting rid of the hashed versions of the files and just using the simple filenames. A example app.manifest looks like this:
 
