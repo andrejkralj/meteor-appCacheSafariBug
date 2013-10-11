@@ -58,7 +58,7 @@ So I suggest getting rid of the hashed versions of the files and just using the 
 I deployed a version of the test app with my modified version of the appcache to:
 (http://appcache2.meteor.com)
 
-I tested my PR with safari 6 (osx), mobileSafari on ios 6.12, Opera 17 (osx), chrome 30 (osx), firefox 24 (osx), ie10 (win7), firefox 24 (win7), opera 16 (win7) 
+I tested my PR [#1489](https://github.com/meteor/meteor/pull/1489) with safari 6 (osx), mobileSafari on ios 6.12, Opera 17 (osx), chrome 30 (osx), firefox 24 (osx), ie10 (win7), firefox 24 (win7), opera 16 (win7) 
 
 Concerning the convince that a dev can change an image for example, but keep the same name:
 
