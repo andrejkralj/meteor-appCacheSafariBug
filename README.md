@@ -60,7 +60,7 @@ I deployed a version of the test app with my modified version of the appcache to
 
 I tested my PR [#1489](https://github.com/meteor/meteor/pull/1489) with safari 6 (osx), mobileSafari on ios 6.12, Opera 17 (osx), chrome 30 (osx), firefox 24 (osx), ie10 (win7), firefox 24 (win7), opera 16 (win7) 
 
-Concerning the convince that a dev can change an image for example, but keep the same name:
+Concerning the convenience that a dev can change an image for example, but keep the same name:
 
 This does not change so much with the new implementation. Chrome, Opera & Safari just reload it on a hot code push, put it into the browser cache and immediately update change files in the appcache.
 
