@@ -22,9 +22,9 @@ To demonstrate how the current appcache downloads resources, I deployed [this re
 [Chrome 30 (osx)](https://raw.github.com/akralj/meteor-appCacheSafariBug/master/screenshots/chrome_double_download_bug.png)
 
 Tools to view the content of the different caches:
+* Chrome: Appcache Entries: chrome://appcache-internals/ | Browser Cache: chrome://cache/
+* Firefox: Appcache Entries: about:cache?device=offline |  Browser Cache: about:cache?device=disk
 * Safari: http://www.beecubu.com/en/desktop-apps/#SafariCacheExplorer (Testversion is enough)
-* Chrome: Appcache Entries: chrome://appcache-internals/ Browser Cache: chrome://cache/
-* Firefox: Appcache Entries: about:cache?device=offline Browser Cache: about:cache?device=disk
 
 In both cases the font and the image are being downloaded twice. In chrome there are just separated in the gui. 
 So I suggest getting rid of the hashed versions of the files and just using the simple filenames. A example app.manifest looks like this:
