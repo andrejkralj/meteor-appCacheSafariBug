@@ -4,7 +4,7 @@ Please clone and run with or without the modified [appcache-server.js](https://g
 
 ### #1470 Appcache Safari reload bug 
 Safari on all versions has a problem loading resources which are references with a hash in the filename.
-tested on Safari 5, 6 on os x & Mobile Safari on ios 5, 6, 7
+tested on Safari 5, 6, 7 on os x & Mobile Safari on ios 5, 6, 7
 
 ### #1488 Appcache downloads static files twice
 
